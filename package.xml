@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>pwmdriver</name>
+  <version>0.0.1</version>
+  <description>ROS2 Driver for the Linux PWM Interface</description>
+  <maintainer email="russ@rw.id.au">Russ Webber</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <build_depend>rclcpp</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>fmt</build_depend>
+  <build_depend>yaml_cpp_vendor</build_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+
+  <!-- <build_depend>ackermann_msgs</build_depend> -->
+
+</package>
