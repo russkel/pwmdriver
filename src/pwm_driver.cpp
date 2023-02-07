@@ -9,7 +9,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/float32.hpp"
+#include "example_msgs/msg/float32.hpp"
 
 #include "pwmlib.hpp"
 
@@ -20,7 +20,7 @@ public:
         RCLCPP_INFO(this->get_logger(), "PWM Driver starting...");
 
         // until I can figure out a better way of doing this...
-        YAML::Node config = YAML::LoadFile("/home/russ/ros2_ws/src/pwmdriver/config/pwm_driver_example.yaml");
+        YAML::Node config = YAML::LoadFile("config/pwm_driver_example.yaml");
 
         auto output_config = config["pwm_driver"]["ros__params"]["outputs"];
 
@@ -51,8 +51,8 @@ public:
                 if (this->get_parameter(fmt::format("{}.type", port_name)).as_string() == "ppm")
                     configure_ppm_range(port, this->get_parameter(fmt::format("{}.ppm_range", port_name)).as_integer_array());
 
-                pwm_outputs_subs[port_name] = this->create_subscription<std_msgs::msg::Float32>(topic, rclcpp::SystemDefaultsQoS(),
-                    [this, port_name](const std_msgs::msg::Float32::SharedPtr msg) {
+                pwm_outputs_subs[port_name] = this->create_subscription<example_msgs::msg::Float32>(topic, rclcpp::SystemDefaultsQoS(),
+                    [this, port_name](const example_msgs::msg::Float32::SharedPtr msg) {
                         handle_set_duty(msg, port_name);});
 
             } catch(std::runtime_error& e) {
@@ -81,7 +81,7 @@ void configure_ppm_range(std::shared_ptr<PWMPort> port, std::vector<int64_t> ppm
         throw std::runtime_error("Invalid PPM range provided, needs to be 2 or 3 ints");
 }
 
-void handle_set_duty(const std_msgs::msg::Float32::SharedPtr msg, const std::string output_name) {
+void handle_set_duty(example_msgs::msg::Float32::ConstSharedPtr msg, const std::string output_name) {
     RCLCPP_DEBUG(this->get_logger(), "Setting duty: %s --> %f", output_name.c_str(), msg->data);
     try {
         pwm_outputs[output_name]->set_duty_scaled(msg->data);
@@ -114,7 +114,7 @@ void deactivate_outputs() {
 }
 
 std::map<std::string, std::shared_ptr<PWMPort>> pwm_outputs;
-std::map<std::string, rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr> pwm_outputs_subs;
+std::map<std::string, rclcpp::Subscription<example_msgs::msg::Float32>::SharedPtr> pwm_outputs_subs;
 };
 
 int main(int argc, char* argv[])
