@@ -47,15 +47,20 @@ pwm_driver:
         ppm_range: [1000000, 1500000, 2000000]
 ```
 
-Output name - string - name of the output, which becomes part of the topic name, i.e. `motor`, `steering_servo`. Letters, numbers and underscores only.
-device_name - string - Name given to the PWM device. This is the `pwmchipX` part of the pathname to the SysFS device: `/sys/class/pwm/pwmchipX`.
-pwm_port - int - The port number that will be exported on the PWM device.
-period - int - The period of the PWM signal in nanoseconds. For RC servos and motor controllers this is 24000000.
-type - string - Options are: `ppm` or `pwm`. The 'type' of PWM signal to output. RC servos and motor controllers needs this to be set to `ppm`.
-ppm_range - int[] - Format is either [`minimum`, `zero-point`, `maximum`] or [`minimum`, `maximum`]. These are the signal durations in nanoseconds for
-    minimum (0 or -1), zero-point (0) and maximum (1.0). If a zero-point is provided then the port will accept normalised input from -1 to 1, otherwise 0 to 1.
-    `[1000000, 1500000, 2000000]` this would cause the setting of the following duty cycles: -1 would be a duty cycle of 1 ms, 0 becomes 1.5 ms and 1 becomes 2 ms.
-    This would be used for a motor controller that is capable of reverse.
+
+`outputs` key `name` - `string` - name of the output, which becomes part of the topic name, i.e. `motor`, `steering_servo`. Letters, numbers and underscores only.
+
+| Parameter     | Type     | Description                                                                                                                     |
+|---------------|----------|---------------------------------------------------------------------------------------------------------------------------------|
+| `device_name` | `string` | Name given to the PWM device. This is the `pwmchipX` part of the pathname to the SysFS device: `/sys/class/pwm/pwmchipX`.       |
+| `pwm_port`    | `int`    | The port number that will be exported on the PWM device.                                                                        |
+| `period`      | `int`    | The period of the PWM signal in nanoseconds. For RC servos and motor controllers this is 24000000.                              |
+| `type`        | `string` | Options are: `ppm` or `pwm`. The 'type' of PWM signal to output. RC servos and motor controllers needs this to be set to `ppm`. |
+| `ppm_range`   | `int[]`  | Format is either [`minimum`, `zero-point`, `maximum`] or [`minimum`, `maximum`].                                                |
+
+### PPM Range
+
+These are the signal durations in nanoseconds for minimum (0 or -1), zero-point (0) and maximum (1.0). If a zero-point is provided then the duty cycle input will accept normalised input from -1.0 to 1.0, otherwise 0.0 to 1.0.  `[1000000, 1500000, 2000000]` this would cause the setting of the following duty cycles: -1 would be a duty cycle of 1 ms, 0 becomes 1.5 ms and 1 becomes 2 ms. This would be used for a motor controller that is capable of reverse.                                                                                         |
 
 ## Other Information
 ### Kernel drivers
