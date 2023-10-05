@@ -17,7 +17,7 @@ add_executable(pwm_driver src/pwm_driver.cpp src/pwmlib.cpp)
 target_include_directories(pwm_driver PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
-target_compile_features(pwm_driver PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+target_compile_features(pwm_driver PUBLIC c_std_99 cxx_std_23)  # Require C99 and C++23
 ament_target_dependencies(pwm_driver
   rclcpp
   yaml_cpp_vendor

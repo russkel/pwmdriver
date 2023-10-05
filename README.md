@@ -1,6 +1,6 @@
 # pwmdriver - ROS2 SysFS PWM Driver
 
-A simple PWM driver that uses the Linux Kernel `sysfs` interface to configure PWM devices. The driver also supports PPM outputs (for servos and RC motor controllers).
+A simple PWM driver that uses the Linux Kernel `sysfs` interface to configure PWM devices. The driver also supports PPM style outputs (for servos and RC motor controllers).
 
 ## Features
 

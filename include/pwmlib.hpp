@@ -15,6 +15,7 @@ public:
     void configure_pwm();
 
     PWMPort(std::string_view pwm_device, int16_t pin_number, int32_t period);
+    ~PWMPort();
 
 private:
     std::filesystem::path dev_path;

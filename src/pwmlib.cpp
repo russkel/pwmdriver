@@ -116,3 +116,6 @@ PWMPort::PWMPort(std::string_view pwm_device, int16_t pin_num, int32_t period) {
     set_duty_direct(0);
 }
 
+PWMPort::~PWMPort() {
+    deactivate();
+}
