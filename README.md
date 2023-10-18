@@ -61,6 +61,7 @@ pwm_driver:
 These are the signal durations in nanoseconds for minimum (0 or -1), zero-point (0) and maximum (1.0). If a zero-point is provided then the duty cycle input will accept normalised input from -1.0 to 1.0, otherwise 0.0 to 1.0.  `[1000000, 1500000, 2000000]` this would cause the setting of the following duty cycles: -1 would be a duty cycle of 1 ms, 0 becomes 1.5 ms and 1 becomes 2 ms. This would be used for a motor controller that is capable of reverse.                                                                                         |
 
 ## Other Information
-### Kernel drivers
 
 ### udev Rules
+
+By default the SysFS interface for PWM devices is only writable by root. To allow non-root users to write to the interface, a `udev` rule must be used to change the permissions on PWM related events. Check to see the group and permissions on the PWM device. If your OS has a group that is allowed to write to the files then ensure your user is in that group. If not use the provided `udev` rule in the `misc` directory to change the permissions to allow users from the `plugdev` group to write to the PWM device.

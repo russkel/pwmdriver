@@ -1,0 +1,3 @@
+SUBSYSTEM=="pwm", ACTION=="add|change", \
+        RUN+="/bin/chgrp -R plugdev '/sys%p'", \
+        RUN+="/bin/chmod -R g=u '/sys%p'"
