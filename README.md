@@ -38,25 +38,23 @@ An example output `motor` is shown below:
 ```yml
 pwm_driver:
   ros__params:
-    outputs:
-      motor:
-        device_name: pwmchip1
-        pwm_port: 7
-        period: 24000000
-        type: ppm
-        ppm_range: [1000000, 1500000, 2000000]
+    outputs: ["motor"]
+    motor:
+      device_path: /sys/class/pwm/pwmchip1
+      channel: 7
+      period: 24000000
+      type: ppm
+      range: [1000000, 1500000, 2000000]
 ```
 
 
-`outputs` key `name` - `string` - name of the output, which becomes part of the topic name, i.e. `motor`, `steering_servo`. Letters, numbers and underscores only.
-
 | Parameter     | Type     | Description                                                                                                                     |
 |---------------|----------|---------------------------------------------------------------------------------------------------------------------------------|
-| `device_name` | `string` | Name given to the PWM device. This is the `pwmchipX` part of the pathname to the SysFS device: `/sys/class/pwm/pwmchipX`.       |
-| `pwm_port`    | `int`    | The port number that will be exported on the PWM device.                                                                        |
+| `device_path` | `string` | Path to the PWM device. e.g. `/sys/class/pwm/pwmchip1`.       |
+| `channel`     | `int`    | The PWM channel that will be used for this output.                                                                         |
 | `period`      | `int`    | The period of the PWM signal in nanoseconds. For RC servos and motor controllers this is 24000000.                              |
 | `type`        | `string` | Options are: `ppm` or `pwm`. The 'type' of PWM signal to output. RC servos and motor controllers needs this to be set to `ppm`. |
-| `ppm_range`   | `int[]`  | Format is either [`minimum`, `zero-point`, `maximum`] or [`minimum`, `maximum`].                                                |
+| `range`   | `int[]`  | Format is either [`minimum`, `zero-point`, `maximum`] or [`minimum`, `maximum`].                                                |
 
 ### PPM Range
 

@@ -20,7 +20,7 @@ target_include_directories(pwm_driver PUBLIC
 target_compile_features(pwm_driver PUBLIC c_std_99 cxx_std_23)  # Require C99 and C++23
 ament_target_dependencies(pwm_driver
   rclcpp
-  yaml_cpp_vendor
+  std_msgs
 )
 
 target_link_libraries(pwm_driver

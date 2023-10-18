@@ -14,18 +14,18 @@ public:
     void configure_ppm(int32_t min_point, int32_t zero_point, int32_t max_point);
     void configure_pwm();
 
-    PWMPort(std::string_view pwm_device, int16_t pin_number, int32_t period);
+    PWMPort(std::string_view pwm_device, int16_t channel, int32_t period);
     ~PWMPort();
 
 private:
     std::filesystem::path dev_path;
     std::filesystem::path duty_cycle_path;
-    std::filesystem::path pwm_pin_path;
+    std::filesystem::path channel_path;
     std::ofstream duty_fs;
-    int16_t pin_number;
-    int32_t pin_period;
-    bool pin_ppm = false;
-    int32_t pin_ppm_min = 0;
-    int32_t pin_ppm_max = 0;
-    int32_t pin_ppm_zero = 0;
+    int16_t channel;
+    int32_t channel_period;
+    bool channel_ppm = false;
+    int32_t channel_ppm_min = 0;
+    int32_t channel_ppm_max = 0;
+    int32_t channel_ppm_zero = 0;
 };
