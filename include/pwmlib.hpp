@@ -7,6 +7,7 @@
 class PWMPort {
 public:
     void set_period(int32_t period);
+    void set_polarity();
     void set_enabled(bool enable);
     void set_duty_direct(int32_t duty);
     void set_duty_scaled(float duty);

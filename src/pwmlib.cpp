@@ -30,6 +30,14 @@ void PWMPort::set_enabled(bool enable) {
     ofs.close();
 }
 
+void PWMPort::set_polarity() {
+    std::ofstream ofs(channel_path / "polarity");
+    if (!ofs.is_open())
+        throw std::runtime_error(fmt::format("Cannot open {}. Likely insufficient permissions", (channel_path / "polarity").string()));
+    ofs << "normal";
+    ofs.close();
+}
+
 void PWMPort::set_duty_direct(int32_t duty) {
     duty_fs = std::ofstream(duty_cycle_path);
     if (!duty_fs.is_open())
@@ -95,23 +103,30 @@ PWMPort::PWMPort(std::string_view pwm_device, int16_t channel_num, int32_t perio
         throw std::runtime_error(fmt::format("Cannot find PWM device {}", dev_path.string()));
 
     channel = channel_num;
+    channel_path = dev_path / fmt::format("pwm{}", channel);
+
+    if (std::filesystem::exists(channel_path))
+        throw std::runtime_error(fmt::format("Channel {} already exported. Could be in use.", channel_path.string()));
+
     std::ofstream ofs(dev_path / "export");
     if (!ofs.is_open())
         throw std::runtime_error(fmt::format("Cannot open {}. Likely insufficient permissions", (dev_path / "export").string()));
     ofs << channel;
     ofs.close();
 
-    // wait a few ms for udev to apply permissions to the newly exported pin
+    // wait for udev to apply permissions to the newly exported pin
     std::this_thread::sleep_for(500ms);
 
-    channel_path = dev_path / fmt::format("pwm{}", channel);
-
     if (!std::filesystem::exists(channel_path))
-        throw std::runtime_error(fmt::format("Cannot find pwm output {}. Export of channel failed", channel_path.string()));
+        throw std::runtime_error(fmt::format("Cannot find pwm channel at {}. Export of channel failed", channel_path.string()));
 
     duty_cycle_path = channel_path / "duty_cycle";
 
     set_enabled(false);
+
+    if (std::filesystem::exists(channel_path / "polarity"))
+        set_polarity();
+
     set_period(period);
     set_duty_direct(0);
 }

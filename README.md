@@ -22,7 +22,6 @@ A survey of the available ROS packages didn't show many ROS 2 PWM packages, and 
 1. Enable the kernel driver for the PWM hardware by configuring the Device Tree.
 1. Set up the `udev` rule so the PWM device's SysFS interface can be written to from non-root users.
 1. Install/compile this package into your ROS2 install or workspace.
-1. Copy the example config file `example.yaml` to your robot configuration directory and edit to suit your application.
 1. Add the `pwmdriver` node to your launch scripts, or run the `pwmdriver` node, making sure to specify your configuration file.
 1. Publish the normalised float to the `/pwm/<output name>` topic, setting the duty cycle.
 1. Zoom around!
@@ -58,7 +57,7 @@ pwm_driver:
 
 ### PPM Range
 
-These are the signal durations in nanoseconds for minimum (0 or -1), zero-point (0) and maximum (1.0). If a zero-point is provided then the duty cycle input will accept normalised input from -1.0 to 1.0, otherwise 0.0 to 1.0.  `[1000000, 1500000, 2000000]` this would cause the setting of the following duty cycles: -1 would be a duty cycle of 1 ms, 0 becomes 1.5 ms and 1 becomes 2 ms. This would be used for a motor controller that is capable of reverse.                                                                                         |
+These are the signal durations in nanoseconds for minimum (0 or -1), zero-point (0) and maximum (1.0). If a zero-point is provided then the duty cycle input will accept normalised input from -1.0 to 1.0, otherwise 0.0 to 1.0.  `[1000000, 1500000, 2000000]` this would cause the setting of the following duty cycles: -1 would be a duty cycle of 1 ms, 0 becomes 1.5 ms and 1 becomes 2 ms. This would be used for a motor controller that is capable of reverse.
 
 ## Other Information
 
