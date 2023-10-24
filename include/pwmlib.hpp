@@ -1,8 +1,9 @@
+#pragma once
+
 #include <string>
 #include <filesystem>
 #include <fstream>
 #include <stdexcept>
-
 
 class PWMPort {
 public:

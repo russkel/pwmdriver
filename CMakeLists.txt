@@ -13,21 +13,38 @@ find_package(std_msgs REQUIRED)
 find_package(fmt REQUIRED)
 find_package(yaml_cpp_vendor REQUIRED)
 
-add_executable(pwm_driver src/pwm_driver.cpp src/pwmlib.cpp)
-target_include_directories(pwm_driver PUBLIC
+add_library(${PROJECT_NAME} SHARED src/pwmlib.cpp src/param_pwmport.cpp)
+add_executable(pwm_driver src/pwm_driver.cpp)
+
+target_include_directories(${PROJECT_NAME} PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
-target_compile_features(pwm_driver PUBLIC c_std_99 cxx_std_23)  # Require C99 and C++23
+
+target_compile_features(${PROJECT_NAME} PUBLIC c_std_99 cxx_std_23)  # Require C99 and C++23
+ament_target_dependencies(${PROJECT_NAME}
+  rclcpp
+)
+
 ament_target_dependencies(pwm_driver
   rclcpp
   std_msgs
 )
 
-target_link_libraries(pwm_driver
+target_link_libraries(${PROJECT_NAME}
   fmt
 )
 
-install(TARGETS pwm_driver
+target_link_libraries(pwm_driver
+  ${PROJECT_NAME}
+  fmt
+)
+
+install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
+install(TARGETS pwm_driver ${PROJECT_NAME}
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
@@ -40,5 +57,7 @@ if(BUILD_TESTING)
   #set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
+
+ament_export_targets(${PROJECT_NAME})
 
 ament_package()

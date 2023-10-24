@@ -64,3 +64,7 @@ These are the signal durations in nanoseconds for minimum (0 or -1), zero-point 
 ### udev Rules
 
 By default the SysFS interface for PWM devices is only writable by root. To allow non-root users to write to the interface, a `udev` rule must be used to change the permissions on PWM related events. Check to see the group and permissions on the PWM device. If your OS has a group that is allowed to write to the files then ensure your user is in that group. If not use the provided `udev` rule in the `misc` directory to change the permissions to allow users from the `plugdev` group to write to the PWM device.
+
+### TODO
+
+* `ros2_control` plugin
