@@ -11,7 +11,6 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
 find_package(fmt REQUIRED)
-find_package(yaml_cpp_vendor REQUIRED)
 
 add_library(${PROJECT_NAME} SHARED src/pwmlib.cpp src/param_pwmport.cpp)
 add_executable(pwm_driver src/pwm_driver.cpp)
@@ -44,8 +43,10 @@ install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
-install(TARGETS pwm_driver ${PROJECT_NAME}
+install(TARGETS pwm_driver
   DESTINATION lib/${PROJECT_NAME})
+
+install(DIRECTORY include/ DESTINATION include)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -58,6 +59,7 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+ament_export_include_directories(include)
 ament_export_targets(${PROJECT_NAME})
 
 ament_package()

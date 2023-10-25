@@ -1,6 +1,6 @@
 #include <fmt/core.h>
 
-#include "param_pwmport.hpp"
+#include "pwmdriver/param_pwmport.hpp"
 
 ParamConfiguredPWMPort::ParamConfiguredPWMPort(rclcpp::Node* node, std::string port_name)
 {

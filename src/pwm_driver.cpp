@@ -10,8 +10,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/float32.hpp"
 
-#include "pwmlib.hpp"
-#include "param_pwmport.hpp"
+#include "pwmdriver/param_pwmport.hpp"
 
 class PWMDriver : public rclcpp::Node {
 public:

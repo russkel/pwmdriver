@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
 
-#include "pwmlib.hpp"
+#include "pwmdriver/pwmlib.hpp"
 #include "rclcpp/rclcpp.hpp"
 
 class ParamConfiguredPWMPort {
