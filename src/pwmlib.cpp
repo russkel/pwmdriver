@@ -55,7 +55,7 @@ void PWMPort::set_duty_scaled(float duty) {
         if (channel_ppm_zero != channel_ppm_min){
             // if there is a zero point defined, then negative duties are supported
             if (duty < 0.0f)
-                duty_value = channel_ppm_min + static_cast<int32_t> (duty * (channel_ppm_zero - channel_ppm_min));
+                duty_value = channel_ppm_zero + static_cast<int32_t> (duty * (channel_ppm_zero - channel_ppm_min));
             else
                 duty_value = channel_ppm_zero + static_cast<int32_t> (duty * (channel_ppm_max - channel_ppm_zero));
 
