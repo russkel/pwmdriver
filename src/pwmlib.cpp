@@ -5,6 +5,7 @@
 #include <thread>
 #include <chrono>
 #include <cmath>
+#include <algorithm>
 
 #include <fmt/core.h>
 
@@ -46,9 +47,13 @@ void PWMPort::set_duty_direct(int32_t duty) {
     duty_fs.close();
 }
 
+float PWMPort::apply_trim(float duty) {
+    duty += duty_trim;
+    return std::clamp(duty, -1.0f, 1.0f);
+}
+
 void PWMPort::set_duty_scaled(float duty) {
-    if (-1.0f > duty || duty > 1.0f)
-        throw std::runtime_error("Invalid duty provided. Duty must be between -1.0 and 1.0");
+    duty = apply_trim(duty);
 
     int32_t duty_value;
     if (channel_ppm) {

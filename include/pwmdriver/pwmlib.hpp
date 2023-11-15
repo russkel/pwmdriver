@@ -15,6 +15,8 @@ public:
     void deactivate();
     void configure_ppm(int32_t min_point, int32_t zero_point, int32_t max_point);
     void configure_pwm();
+    void set_trim(float trim) { duty_trim = trim; }
+    float apply_trim(float duty);
 
     PWMPort(std::string_view pwm_device, int16_t channel, int32_t period);
     ~PWMPort();
@@ -30,4 +32,5 @@ private:
     int32_t channel_ppm_min = 0;
     int32_t channel_ppm_max = 0;
     int32_t channel_ppm_zero = 0;
+    float duty_trim = 0.0;
 };

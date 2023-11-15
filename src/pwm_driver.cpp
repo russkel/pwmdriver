@@ -27,7 +27,7 @@ public:
                 RCLCPP_INFO(this->get_logger(), "Configured output: %s [%s channel %d] on %s", port_name.c_str(), port->pwm_device.c_str(), port->channel, topic.c_str());
 
                 pwm_outputs[port_name] = port;
-                pwm_outputs_subs[port_name] = this->create_subscription<std_msgs::msg::Float32>(topic, rclcpp::SystemDefaultsQoS(),
+                pwm_outputs_subs[port_name] = this->create_subscription<std_msgs::msg::Float32>(topic, rclcpp::QoS(rclcpp::KeepLast(1)),
                     [this, port_name](const std_msgs::msg::Float32::SharedPtr msg) {
                         handle_set_duty(msg, port_name);});
 
@@ -63,6 +63,7 @@ void activate_outputs() {
             RCLCPP_ERROR(this->get_logger(), "Error occured while activating output (%s): %s", output.first.c_str(), e.what());
         }
     }
+    RCLCPP_DEBUG(this->get_logger(), "Activated outputs");
 }
 
 void deactivate_outputs() {

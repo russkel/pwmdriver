@@ -9,6 +9,7 @@ ParamConfiguredPWMPort::ParamConfiguredPWMPort(rclcpp::Node* node, std::string p
     int period = node->declare_parameter(fmt::format("{}.period", port_name), 0);
     std::string port_type = node->declare_parameter(fmt::format("{}.type", port_name), "pwm");
     std::vector<int64_t> ppm_range = node->declare_parameter(fmt::format("{}.range", port_name), std::vector<int64_t> {});
+    float trim = node->declare_parameter(fmt::format("{}.trim", port_name), 0.0f);
 
     RCLCPP_DEBUG(node->get_logger(), "Setting up output: %s [%s channel %d]", port_name.c_str(), pwm_device.c_str(), channel);
 
@@ -16,6 +17,8 @@ ParamConfiguredPWMPort::ParamConfiguredPWMPort(rclcpp::Node* node, std::string p
 
     if (port_type == "ppm")
         configure_ppm_range(ppm_range);
+
+    port->set_trim(trim);
 }
 
 void ParamConfiguredPWMPort::configure_ppm_range(std::vector<int64_t> ppm_range)
