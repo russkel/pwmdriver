@@ -37,24 +37,30 @@ An example output `motor` is shown below:
 ```yml
 pwm_driver:
   ros__params:
-    outputs: ["motor"]
-    motor:
+    outputs: ["esc", "servo"]
+    esc:
       device_path: /sys/class/pwm/pwmchip1
       channel: 7
-      period: 24000000
+      period: 2040000
+      type: ppm
+      range: [1000000, 1500000, 2000000]
+    servo:
+      device_path: /sys/class/pwm/pwmchip2
+      channel: 7
+      period: 20000000
       type: ppm
       range: [1000000, 1500000, 2000000]
 ```
 
 
-| Parameter     | Type     | Description                                                                                                                     |
-|---------------|----------|---------------------------------------------------------------------------------------------------------------------------------|
-| `device_path` | `string` | Path to the PWM device. e.g. `/sys/class/pwm/pwmchip1`.                                                                         |
-| `channel`     | `int`    | The PWM channel that will be used for this output.                                                                              |
-| `period`      | `int`    | The period of the PWM signal in nanoseconds. For RC servos and motor controllers this is 24000000.                              |
-| `type`        | `string` | Options are: `ppm` or `pwm`. The 'type' of PWM signal to output. RC servos and motor controllers needs this to be set to `ppm`. |
-| `range`       | `int[]`  | Format is either [`minimum`, `zero-point`, `maximum`] or [`minimum`, `maximum`].                                                |
-| `trim`        | `float`  | Trim value for the scaled duty output. This value is added to the normalised duty value.                                        |
+| Parameter     | Type     | Description                                                                                                                              |
+|---------------|----------|------------------------------------------------------------------------------------------------------------------------------------------|
+| `device_path` | `string` | Path to the PWM device. e.g. `/sys/class/pwm/pwmchip1`.                                                                                  |
+| `channel`     | `int`    | The PWM channel that will be used for this output.                                                                                       |
+| `period`      | `int`    | The period of the PWM signal in nanoseconds. For RC servos this is `20000000` (20 ms) and motor controllers this is `2040000` (2.04 ms). |
+| `type`        | `string` | Options are: `ppm` or `pwm`. The 'type' of PWM signal to output. RC servos and motor controllers needs this to be set to `ppm`.          |
+| `range`       | `int[]`  | Format is either [`minimum`, `zero-point`, `maximum`] or [`minimum`, `maximum`].                                                         |
+| `trim`        | `float`  | Trim value for the scaled duty output. This value is added to the normalised duty value.                                                 |
 
 ### PPM Range
 

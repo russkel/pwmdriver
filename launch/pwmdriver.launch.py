@@ -7,11 +7,18 @@ def generate_launch_description():
         package="pwmdriver",
         executable="pwm_driver",
         parameters=[{
-            "outputs": ["drive_servo"],
-            "drive_servo": {
+            "outputs": ["esc", "servo"],
+            "esc": {
                 "device_path": "/sys/class/pwm/pwmchip1",
                 "channel": 0,
-                "period": 24000000,
+                "period": 2040000,
+                "type": "ppm",
+                "range": [1000000, 1500000, 2000000]
+            },
+            "servo": {
+                "device_path": "/sys/class/pwm/pwmchip2",
+                "channel": 0,
+                "period": 20000000,
                 "type": "ppm",
                 "range": [1000000, 1500000, 2000000]
             }
