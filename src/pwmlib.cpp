@@ -15,6 +15,7 @@ using namespace std::chrono_literals;
 
 void PWMPort::set_period(int32_t period) {
     std::ofstream ofs(channel_path / "period");
+    ofs.exceptions(std::ofstream::failbit | std::ofstream::badbit);
     if (!ofs.is_open())
         throw std::runtime_error(fmt::format("Cannot open {}. Likely insufficient permissions", (channel_path / "period").string()));
     ofs << period;
@@ -35,6 +36,7 @@ int32_t PWMPort::get_period() {
 
 void PWMPort::set_enabled(bool enable) {
     std::ofstream ofs(channel_path / "enable");
+    ofs.exceptions(std::ofstream::failbit | std::ofstream::badbit);
     if (!ofs.is_open())
         throw std::runtime_error(fmt::format("Cannot open {}. Likely insufficient permissions", (channel_path / "enable").string()));
     ofs << enable;
@@ -43,6 +45,7 @@ void PWMPort::set_enabled(bool enable) {
 
 void PWMPort::set_polarity() {
     std::ofstream ofs(channel_path / "polarity");
+    ofs.exceptions(std::ofstream::failbit | std::ofstream::badbit);
     if (!ofs.is_open())
         throw std::runtime_error(fmt::format("Cannot open {}. Likely insufficient permissions", (channel_path / "polarity").string()));
     ofs << "normal";
@@ -61,6 +64,7 @@ std::string PWMPort::get_polarity() {
 
 void PWMPort::set_duty_direct(int32_t duty) {
     duty_fs = std::ofstream(duty_cycle_path);
+    duty_fs.exceptions(std::ofstream::failbit | std::ofstream::badbit);
     if (!duty_fs.is_open())
         throw std::runtime_error("duty_cycle fstream not open, cannot set duty cycle");
     duty_fs << duty;
