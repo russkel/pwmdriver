@@ -12,11 +12,14 @@ public:
     void set_enabled(bool enable);
     void set_duty_direct(int32_t duty);
     void set_duty_scaled(float duty);
+    void set_trim(float trim) { duty_trim = trim; }
+    int32_t get_period();
+    std::string get_polarity();
     void deactivate();
     void configure_ppm(int32_t min_point, int32_t zero_point, int32_t max_point);
     void configure_pwm();
-    void set_trim(float trim) { duty_trim = trim; }
     float apply_trim(float duty);
+    bool check();
 
     PWMPort(std::string_view pwm_device, int16_t channel, int32_t period);
     ~PWMPort();

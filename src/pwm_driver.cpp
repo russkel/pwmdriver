@@ -57,6 +57,7 @@ void activate_outputs() {
     for (auto& output: pwm_outputs) {
         RCLCPP_DEBUG(this->get_logger(), "Activating output %s", output.first.c_str());
         try {
+            output.second->port->check();
             output.second->port->set_duty_scaled(0.0);
             output.second->port->set_enabled(true);
         } catch(std::runtime_error& e) {

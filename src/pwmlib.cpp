@@ -23,6 +23,16 @@ void PWMPort::set_period(int32_t period) {
     channel_period = period;
 }
 
+int32_t PWMPort::get_period() {
+    std::ifstream ifs(channel_path / "period");
+    if (!ifs.is_open())
+        throw std::runtime_error(fmt::format("Cannot open {}. Likely insufficient permissions", (channel_path / "period").string()));
+    int32_t period;
+    ifs >> period;
+    ifs.close();
+    return period;
+}
+
 void PWMPort::set_enabled(bool enable) {
     std::ofstream ofs(channel_path / "enable");
     if (!ofs.is_open())
@@ -37,6 +47,16 @@ void PWMPort::set_polarity() {
         throw std::runtime_error(fmt::format("Cannot open {}. Likely insufficient permissions", (channel_path / "polarity").string()));
     ofs << "normal";
     ofs.close();
+}
+
+std::string PWMPort::get_polarity() {
+    std::ifstream ifs(channel_path / "polarity");
+    if (!ifs.is_open())
+        throw std::runtime_error(fmt::format("Cannot open {}. Likely insufficient permissions", (channel_path / "polarity").string()));
+    std::string polarity;
+    ifs >> polarity;
+    ifs.close();
+    return polarity;
 }
 
 void PWMPort::set_duty_direct(int32_t duty) {
@@ -73,6 +93,16 @@ void PWMPort::set_duty_scaled(float duty) {
         duty_value = static_cast<int32_t> (duty * channel_period);
 
     set_duty_direct(duty_value);
+}
+
+bool PWMPort::check() {
+    if (get_period() != channel_period)
+        throw std::runtime_error(fmt::format("Period mismatch on channel {}. Expected {} but got {}", channel, channel_period, get_period()));
+
+    if (get_polarity() != "normal")
+        throw std::runtime_error(fmt::format("Polarity mismatch on channel {}. Expected 'normal' but got '{}'", channel, get_polarity()));
+
+    return true;
 }
 
 void PWMPort::deactivate() {
