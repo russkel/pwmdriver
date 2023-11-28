@@ -158,11 +158,11 @@ PWMPort::PWMPort(std::string_view pwm_device, int16_t channel_num, int32_t perio
     duty_cycle_path = channel_path / "duty_cycle";
 
     set_enabled(false);
+    set_period(period);
 
     if (std::filesystem::exists(channel_path / "polarity"))
         set_polarity();
 
-    set_period(period);
     set_duty_direct(0);
 }
 
