@@ -49,7 +49,7 @@ pwm_driver:
       channel: 7
       period: 20000000
       type: ppm
-      range: [1000000, 1500000, 2000000]
+      range: [500000, 500000, 1900000]
 ```
 
 

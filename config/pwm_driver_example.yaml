@@ -2,15 +2,15 @@ pwm_driver:
   ros__params:
     outputs: ["steering_servo", "motor"]
     steering_servo:
-      device_path: pwmch/sys/class/pwm/pwmchip1
+      device_path: /sys/class/pwm/pwmchip1
       channel: 1
-      period: 24000000 # 24 milliseconds in nanoseconds
+      period: 20000000
       type: ppm
       range: [500000, 500000, 1900000] # 0: = 1 ms, 1 = 2 ms , 1500000, 1500000, 1900000
 
     motor:
        device_path: /sys/class/pwm/pwmchip1
        channel: 7
-       period: 24000000
+       period: 2040000
        type: ppm
        range: [1000000, 1500000, 2000000] # -1: 1ms, 0: = 1.5 ms, 1 = 2 ms
